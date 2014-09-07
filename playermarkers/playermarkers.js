@@ -23,7 +23,7 @@ var ANIMATED = true;
 // data from the Wurstmineberg server. Don't forget the trailing slash.
 var API_PATH = "http://api.wurstmineberg.de/";
 var IMG_PATH = "http://playermarkers.wurstmineberg.de/player.php?username={username}";
-var IMG_SIZE_FACTOR = 1.5;
+var IMG_SIZE_FACTOR = 1.0;
 var WORLD = 'wurstmineberg';
 
 function PlayerMarker(ui, username, world, pos) {
