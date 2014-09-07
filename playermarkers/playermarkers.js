@@ -154,6 +154,8 @@ MapPlayerMarkerHandler.prototype.updatePlayers = function(data) {
 
 	var globalPlayersOnline = [];
 	var worldPlayersOnline = 0;
+	var players = this.players;
+	var currentWorld = this.currentWorld;
 	$.each(data, function(username, playerData) {
 		var pos = {
 			x: playerData.Pos[0],
@@ -163,8 +165,8 @@ MapPlayerMarkerHandler.prototype.updatePlayers = function(data) {
 
 		var player;
 
-		if(username in this.players) {
-			player = this.players[username];
+		if(username in players) {
+			player = players[username];
 		} else {
 			var world = WORLD;
 			if(playerData.Dimension == 1) {
@@ -174,10 +176,10 @@ MapPlayerMarkerHandler.prototype.updatePlayers = function(data) {
 				world = WORLD + '_nether';
 			}
 			player = new PlayerMarker(ui, username, world, pos);
-			this.players[username] = player;
+			players[username] = player;
 		}
 		
-		player.setActive(user.world == this.currentWorld);
+		player.setActive(user.world == currentWorld);
 
 		if(player.active) {
 			worldPlayersOnline++;
