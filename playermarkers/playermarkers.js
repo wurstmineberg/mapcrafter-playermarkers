@@ -1,5 +1,6 @@
 /**
  * Copyright 2013-2014 Moritz Hilscher
+ * Copyright 2014 Max Dominik Weber ("Fenhl")
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,12 +16,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-var INTERVAL = 5 * 1000;
+var INTERVAL = 15 * 1000; // API receives new data every 45 seconds
 var ANIMATED = true;
 
-var JSON_PATH = "/path/to/players.json";
+// The Wurstmineberg API to pull player positions from. By default, this uses
+// data from the Wurstmineberg server. Don't forget the trailing slash.
+var API_PATH = "http://api.wurstmineberg.de/";
 var IMG_PATH = "/path/to/player.php?username={username}";
 var IMG_SIZE_FACTOR = 1.5;
+var WORLD = 'wurstmineberg';
 
 function PlayerMarker(ui, username, world, pos) {
 	this.ui = ui;
@@ -117,7 +121,7 @@ MapPlayerMarkerHandler.prototype.create = function() {
 	
 	var handler = function(self) {
 		return function() {
-			$.getJSON(JSON_PATH, function(data) { self.updatePlayers(data); });
+			$.getJSON(API_PATH + 'server/playerdata.json', function(data) { self.updatePlayers(data); });
 		};
 	}(this);
 	
@@ -150,17 +154,26 @@ MapPlayerMarkerHandler.prototype.updatePlayers = function(data) {
 
 	var globalPlayersOnline = [];
 	var worldPlayersOnline = 0;
-	for(var i = 0; i < data["players"].length; i++) {
-		var user = data["players"][i];
-		var username = user.username;
-		var pos = {x: user.x, z: user.z, y: user.y};
+	$.each(data, function(username, playerData) {
+		var pos = {
+			x: playerData.Pos[0],
+			y: playerData.Pos[1],
+			z: playerData.Pos[2]
+		};
 
 		var player;
 
-		if(user.username in this.players) {
+		if(username in this.players) {
 			player = this.players[username];
 		} else {
-			player = new PlayerMarker(ui, username, user.world, pos);
+			var world = WORLD;
+			if(playerData.Dimension == 1) {
+				world = WORLD + '_end';
+			}
+			if(playerData.Dimension == -1) {
+				world = WORLD + '_nether';
+			}
+			player = new PlayerMarker(ui, username, world, pos);
 			this.players[username] = player;
 		}
 		
@@ -171,7 +184,7 @@ MapPlayerMarkerHandler.prototype.updatePlayers = function(data) {
 			player.move(pos);
 		}
 		globalPlayersOnline.push(username);
-	}
+	});
 	
 	for(var name in this.players) {
 		if(globalPlayersOnline.indexOf(name) == -1) {
