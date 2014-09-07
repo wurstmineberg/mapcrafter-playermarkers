@@ -22,7 +22,7 @@ var ANIMATED = true;
 // The Wurstmineberg API to pull player positions from. By default, this uses
 // data from the Wurstmineberg server. Don't forget the trailing slash.
 var API_PATH = "http://api.wurstmineberg.de/";
-var IMG_PATH = "/path/to/player.php?username={username}";
+var IMG_PATH = "http://playermarkers.wurstmineberg.de/player.php?username={username}";
 var IMG_SIZE_FACTOR = 1.5;
 var WORLD = 'wurstmineberg';
 

@@ -38,7 +38,6 @@ You need some things to use this script:
   the API with the player data and the path to the PHP-Script to generate the
   player images. You can also turn the player movement animation off if you
   don't want it.
-
 * The last point is that you have to include the script into your rendered map.
   Open your Mapcrafter template `index.html` file and add the following lines 
   after the `<script>` section where the Mapcrafter UI is initialized:
