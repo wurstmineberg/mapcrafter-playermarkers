@@ -164,22 +164,22 @@ MapPlayerMarkerHandler.prototype.updatePlayers = function(data) {
 		};
 
 		var player;
+		var world = WORLD;
+		if(playerData.Dimension == 1) {
+			world = WORLD + '_end';
+		}
+		if(playerData.Dimension == -1) {
+			world = WORLD + '_nether';
+		}
 
 		if(username in players) {
 			player = players[username];
 		} else {
-			var world = WORLD;
-			if(playerData.Dimension == 1) {
-				world = WORLD + '_end';
-			}
-			if(playerData.Dimension == -1) {
-				world = WORLD + '_nether';
-			}
 			player = new PlayerMarker(ui, username, world, pos);
 			players[username] = player;
 		}
 		
-		player.setActive(user.world == currentWorld);
+		player.setActive(world == currentWorld);
 
 		if(player.active) {
 			worldPlayersOnline++;
