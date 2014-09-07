@@ -30,15 +30,10 @@ You need some things to use this script:
 
 ## Installation ##
 
-* Make sure your API's `/players/:player/playerdata.json` endpoint is working.
+* Make sure your API's `/server/playerdata.json` endpoint is working.
 * Copy the files from the `playermarkers` directory to an accessible web
   directory.
 * Make sure that PHP has write access to a directory called `cache`.
-
-```
-ln -s /path/to/minecraft/server/players.json /path/to/www/playermarkers/players.json
-```
-
 * Now configure the `playermarkers.js` script. You need to specify the URL of
   the API with the player data and the path to the PHP-Script to generate the
   player images. You can also turn the player movement animation off if you
