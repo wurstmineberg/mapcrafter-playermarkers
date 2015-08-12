@@ -129,7 +129,7 @@ PlayerMarker.prototype.updateData = function(pos, health, food, saturation, xp, 
 
 	if(bed != null) {
 		this.bedMarker.setLatLng(this.ui.mcToLatLng(bed.x, bed.z, bed.y));
-		this.bedMarker.bindPopup('<h1>' + this.username + ' bed spawn</h1><p>position: ' + Math.floor(bed.x) + ' ' + Math.floor(bed.y) + ' ' + Math.floor(bed.z) + '</p>'. {offset: [0, -8]});
+		this.bedMarker.bindPopup('<h1>' + this.username + ' bed spawn</h1><p>position: ' + Math.floor(bed.x) + ' ' + Math.floor(bed.y) + ' ' + Math.floor(bed.z) + '</p>', {offset: [0, -8]});
 	}
 }
 
