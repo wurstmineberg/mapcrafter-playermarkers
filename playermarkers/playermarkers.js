@@ -55,7 +55,7 @@ function PlayerMarker(ui, username, world, pos, health, food, saturation, xp, be
 				iconSize: [16, 16],
 			}),
 		});
-		this.bedMarker.bindPopup('<h1>' + username + ' bed spawn</h1><p>position: ' + Math.floor(bed.x) + ' ' + Math.floor(bed.y) + ' ' + Math.floor(bed.z) + '</p>'. {offset: [0, -8]});
+		this.bedMarker.bindPopup('<h1>' + username + ' bed spawn</h1><p>position: ' + Math.floor(bed.x) + ' ' + Math.floor(bed.y) + ' ' + Math.floor(bed.z) + '</p>', {offset: [0, -8]});
 		this.bedMarker.addTo(this.ui.lmap);
 	}
 
