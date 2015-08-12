@@ -1,6 +1,6 @@
 /**
  * Copyright 2013-2014 Moritz Hilscher
- * Copyright 2014 Max Dominik Weber ("Fenhl")
+ * Copyright 2014-2015 Max Dominik Weber ("Fenhl")
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,16 +16,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+var isDev = /^([0-9a-z]+\.)?dev\.([0-9a-z]+\.)?wurstmineberg\.de$/.test(location.hostname);
+var host = isDev ? 'dev.wurstmineberg.de' : 'wurstmineberg.de';
+
 var INTERVAL = 15 * 1000; // API receives new data every 45 seconds
 var ANIMATED = true;
 
 // The Wurstmineberg API to pull player positions from. By default, this uses
 // data from the Wurstmineberg server. Don't forget the trailing slash.
-var API_PATH = "http://api.wurstmineberg.de/";
-var IMG_PATH = "http://playermarkers.wurstmineberg.de/player.php?username={username}";
+var API_PATH = 'http://api.' + host + '/';
+var IMG_PATH = 'http://playermarkers.' + host + '/player.php?username={username}';
 var IMG_SIZE_FACTOR = 1.0;
 var WORLD = 'wurstmineberg';
-var BED_IMG = "/path/to/bed.png";
+var BED_IMG = 'http://assets.' + host + '/img/grid/bed.png';
 
 function PlayerMarker(ui, username, world, pos, health, food, saturation, xp, bed) {
 	this.ui = ui;
