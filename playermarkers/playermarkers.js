@@ -218,7 +218,7 @@ MapPlayerMarkerHandler.prototype.updatePlayers = function(data) {
 		if(player.active) {
 			worldPlayersOnline++;
 			player.move(pos);
-			player.updateData(pos, user.health, user.food, user.saturation, user.level, bed);
+			player.updateData(pos, playerData.Health, playerData.foodLevel, playerData.foodSaturationLevel, playerData.XpLevel, bed);
 		}
 		globalPlayersOnline.push(username);
 	});
