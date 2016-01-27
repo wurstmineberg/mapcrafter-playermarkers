@@ -126,11 +126,11 @@ PlayerMarker.prototype.move = function(destination) {
 };
 
 PlayerMarker.prototype.updateData = function(pos, health, food, saturation, xp, bed) {
-	this.marker.bindPopup('<h1>' + this.displayName + '</h1><p>position: ' + Math.floor(pos.x) + ' ' + Math.floor(pos.y) + ' ' + Math.floor(pos.z) + '<br />health: ' + health + ' (' + health / 2 + ' hearts)<br />food: ' + food + ' (saturation: ' + saturation + ')<br />xp level: ' + Math.floor(xp) + '</p>', {offset: [0, -16]});
+	this.marker.bindPopup('<h1><a href="https://' + host + '/people/' + this.username + '">' + this.displayName + '</a></h1><p>position: ' + Math.floor(pos.x) + ' ' + Math.floor(pos.y) + ' ' + Math.floor(pos.z) + '<br />health: ' + health + ' (' + health / 2 + ' hearts)<br />food: ' + food + ' (saturation: ' + saturation + ')<br />xp level: ' + Math.floor(xp) + '</p>', {offset: [0, -16]});
 
 	if(bed != null) {
 		this.bedMarker.setLatLng(this.ui.mcToLatLng(bed.x, bed.z, bed.y));
-		this.bedMarker.bindPopup('<h1>' + this.displayName + ' bed spawn</h1><p>position: ' + Math.floor(bed.x) + ' ' + Math.floor(bed.y) + ' ' + Math.floor(bed.z) + '</p>', {offset: [0, -8]});
+		this.bedMarker.bindPopup('<h1><a href="https://' + host + '/people/' + this.username + '">' + this.displayName + '</a> bed spawn</h1><p>position: ' + Math.floor(bed.x) + ' ' + Math.floor(bed.y) + ' ' + Math.floor(bed.z) + '</p>', {offset: [0, -8]});
 	}
 }
 
