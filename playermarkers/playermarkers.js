@@ -179,6 +179,7 @@ MapPlayerMarkerHandler.prototype.updatePlayers = function(data) {
 	if(!data)
 		return;
 
+	var _this = this;
 	var globalPlayersOnline = [];
 	var worldPlayersOnline = 0;
 	var players = this.players;
@@ -211,7 +212,6 @@ MapPlayerMarkerHandler.prototype.updatePlayers = function(data) {
 			player = players[wmbID];
 		} else {
 			// get display name from API
-			var _this = this;
 			$.getJSON(API_PATH + 'v2/player/' + wmbID + '/info.json', function(playerInfo) {
 				if ('name' in playerInfo) {
 					_this.updateName(wmbID, playerInfo.name);
