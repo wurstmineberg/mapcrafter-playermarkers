@@ -147,7 +147,7 @@ MapPlayerMarkerHandler.prototype.create = function() {
 
 	var handler = function(self) {
 		return function() {
-			$.getJSON(API_PATH + 'v2/world/' + WORLD + 'playerdata/all.json', function(data) { self.updatePlayers(data); });
+			$.getJSON(API_PATH + 'v2/world/' + WORLD + '/playerdata/all.json', function(data) { self.updatePlayers(data); });
 		};
 	}(this);
 
