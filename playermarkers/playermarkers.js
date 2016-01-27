@@ -211,9 +211,10 @@ MapPlayerMarkerHandler.prototype.updatePlayers = function(data) {
 			player = players[wmbID];
 		} else {
 			// get display name from API
+			var _this = this;
 			$.getJSON(API_PATH + 'v2/player/' + wmbID + '/info.json', function(playerInfo) {
 				if ('name' in playerInfo) {
-					self.updateName(wmbID, playerInfo.name);
+					_this.updateName(wmbID, playerInfo.name);
 				}
 			});
 			player = new PlayerMarker(ui, wmbID, world, pos, playerData.Health, playerData.foodLevel, playerData.foodSaturationLevel, playerData.XpLevel, bed);
