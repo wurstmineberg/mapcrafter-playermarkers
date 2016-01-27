@@ -1,6 +1,6 @@
 /**
  * Copyright 2013-2014 Moritz Hilscher
- * Copyright 2014-2015 Max Dominik Weber ("Fenhl")
+ * Copyright 2014-2016 Max Dominik Weber ("Fenhl")
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,23 +24,23 @@ var ANIMATED = true;
 
 // The Wurstmineberg API to pull player positions from. By default, this uses
 // data from the Wurstmineberg server. Don't forget the trailing slash.
-var API_PATH = 'http://api.' + host + '/';
-var IMG_PATH = 'http://playermarkers.' + host + '/player.php?username={username}';
+var API_PATH = 'https://api.' + host + '/';
+var IMG_PATH = API_PATH + 'v2/player/{wmbID}/skin/render/front/16.png';
 var IMG_SIZE_FACTOR = 1.0;
 var WORLD = 'wurstmineberg';
-var BED_IMG = 'http://assets.' + host + '/img/grid/bed.png';
+var BED_IMG = 'https://assets.' + host + '/img/grid/bed.png';
 
-function PlayerMarker(ui, username, world, pos, health, food, saturation, xp, bed) {
+function PlayerMarker(ui, wmbID, world, pos, health, food, saturation, xp, bed) {
 	this.ui = ui;
 
-	this.username = username;
+	this.username = wmbID;
 	this.world = world;
 	this.active = true;
 
 	this.marker = L.marker(this.ui.mcToLatLng(pos.x, pos.z, pos.y), {
 		title: this.username,
 		icon: L.icon({
-			iconUrl: IMG_PATH.replace("{username}", username),
+			iconUrl: IMG_PATH.replace("{username}", wmbID),
 			iconSize: [16 * IMG_SIZE_FACTOR, 32 * IMG_SIZE_FACTOR],
 		}),
 	});
@@ -147,7 +147,7 @@ MapPlayerMarkerHandler.prototype.create = function() {
 
 	var handler = function(self) {
 		return function() {
-			$.getJSON(API_PATH + 'server/playerdata.json', function(data) { self.updatePlayers(data); });
+			$.getJSON(API_PATH + 'v2/world/' + WORLD + 'playerdata/all.json', function(data) { self.updatePlayers(data); });
 		};
 	}(this);
 
@@ -182,7 +182,7 @@ MapPlayerMarkerHandler.prototype.updatePlayers = function(data) {
 	var worldPlayersOnline = 0;
 	var players = this.players;
 	var currentWorld = this.currentWorld;
-	$.each(data, function(username, playerData) {
+	$.each(data, function(wmbID, playerData) {
 		var pos = {
 			x: playerData.Pos[0],
 			y: playerData.Pos[1],
@@ -206,11 +206,11 @@ MapPlayerMarkerHandler.prototype.updatePlayers = function(data) {
 			world = WORLD + '_nether';
 		}
 
-		if(username in players) {
-			player = players[username];
+		if(wmbID in players) {
+			player = players[wmbID];
 		} else {
-			player = new PlayerMarker(ui, username, world, pos, playerData.Health, playerData.foodLevel, playerData.foodSaturationLevel, playerData.XpLevel, bed);
-			players[username] = player;
+			player = new PlayerMarker(ui, wmbID, world, pos, playerData.Health, playerData.foodLevel, playerData.foodSaturationLevel, playerData.XpLevel, bed);
+			players[wmbID] = player;
 		}
 
 		player.setActive(world == currentWorld);
@@ -220,13 +220,13 @@ MapPlayerMarkerHandler.prototype.updatePlayers = function(data) {
 			player.move(pos);
 			player.updateData(pos, playerData.Health, playerData.foodLevel, playerData.foodSaturationLevel, playerData.XpLevel, bed);
 		}
-		globalPlayersOnline.push(username);
+		globalPlayersOnline.push(wmbID);
 	});
 
-	for(var name in this.players) {
-		if(globalPlayersOnline.indexOf(name) == -1) {
-			this.players[name].setActive(false);
-			delete this.players[name];
+	for(var wmbID in this.players) {
+		if(globalPlayersOnline.indexOf(wmbID) == -1) {
+			this.players[wmbID].setActive(false);
+			delete this.players[wmbID];
 		}
 	}
 
