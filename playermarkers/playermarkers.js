@@ -30,21 +30,22 @@ var IMG_SIZE_FACTOR = 1.0;
 var WORLD = 'wurstmineberg';
 var BED_IMG = 'https://assets.' + host + '/img/grid/bed.png';
 
-function PlayerMarker(ui, wmbID, world, pos, health, food, saturation, xp, bed) {
+function PlayerMarker(ui, wmbID, displayName, world, pos, health, food, saturation, xp, bed) {
 	this.ui = ui;
 
 	this.username = wmbID;
+	this.displayName = displayName;
 	this.world = world;
 	this.active = true;
 
 	this.marker = L.marker(this.ui.mcToLatLng(pos.x, pos.z, pos.y), {
 		title: this.username,
 		icon: L.icon({
-			iconUrl: IMG_PATH.replace("{username}", wmbID),
+			iconUrl: IMG_PATH.replace("{wmbID}", wmbID),
 			iconSize: [16 * IMG_SIZE_FACTOR, 32 * IMG_SIZE_FACTOR],
 		}),
 	});
-	this.marker.bindPopup('<h1>' + username + '</h1><p>position: ' + Math.floor(pos.x) + ' ' + Math.floor(pos.y) + ' ' + Math.floor(pos.z) + '<br />health: ' + health + ' (' + health / 2 + ' hearts)<br />food: ' + food + ' (saturation: ' + saturation + ')<br />xp level: ' + Math.floor(xp) + '</p>', {offset: [0, -16]});
+	this.marker.bindPopup('<h1>' + wmbID + '</h1><p>position: ' + Math.floor(pos.x) + ' ' + Math.floor(pos.y) + ' ' + Math.floor(pos.z) + '<br />health: ' + health + ' (' + health / 2 + ' hearts)<br />food: ' + food + ' (saturation: ' + saturation + ')<br />xp level: ' + Math.floor(xp) + '</p>', {offset: [0, -16]});
 	this.marker.addTo(this.ui.lmap);
 
 	if(bed != null) {
@@ -55,7 +56,7 @@ function PlayerMarker(ui, wmbID, world, pos, health, food, saturation, xp, bed) 
 				iconSize: [16, 16],
 			}),
 		});
-		this.bedMarker.bindPopup('<h1>' + username + ' bed spawn</h1><p>position: ' + Math.floor(bed.x) + ' ' + Math.floor(bed.y) + ' ' + Math.floor(bed.z) + '</p>', {offset: [0, -8]});
+		this.bedMarker.bindPopup('<h1>' + wmbID + ' bed spawn</h1><p>position: ' + Math.floor(bed.x) + ' ' + Math.floor(bed.y) + ' ' + Math.floor(bed.z) + '</p>', {offset: [0, -8]});
 		this.bedMarker.addTo(this.ui.lmap);
 	}
 
@@ -209,7 +210,9 @@ MapPlayerMarkerHandler.prototype.updatePlayers = function(data) {
 		if(wmbID in players) {
 			player = players[wmbID];
 		} else {
-			player = new PlayerMarker(ui, wmbID, world, pos, playerData.Health, playerData.foodLevel, playerData.foodSaturationLevel, playerData.XpLevel, bed);
+			var displayName = wmbID;
+			//TODO get display name from API
+			player = new PlayerMarker(ui, wmbID, displayName, world, pos, playerData.Health, playerData.foodLevel, playerData.foodSaturationLevel, playerData.XpLevel, bed);
 			players[wmbID] = player;
 		}
 
