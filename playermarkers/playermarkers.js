@@ -30,11 +30,11 @@ var IMG_SIZE_FACTOR = 1.0;
 var WORLD = 'wurstmineberg';
 var BED_IMG = 'https://assets.' + host + '/img/grid/bed.png';
 
-function PlayerMarker(ui, wmbID, displayName, world, pos, health, food, saturation, xp, bed) {
+function PlayerMarker(ui, wmbID, world, pos, health, food, saturation, xp, bed) {
 	this.ui = ui;
 
 	this.username = wmbID;
-	this.displayName = displayName;
+	this.displayName = wmbID;
 	this.world = world;
 	this.active = true;
 
@@ -126,11 +126,11 @@ PlayerMarker.prototype.move = function(destination) {
 };
 
 PlayerMarker.prototype.updateData = function(pos, health, food, saturation, xp, bed) {
-	this.marker.bindPopup('<h1>' + this.username + '</h1><p>position: ' + Math.floor(pos.x) + ' ' + Math.floor(pos.y) + ' ' + Math.floor(pos.z) + '<br />health: ' + health + ' (' + health / 2 + ' hearts)<br />food: ' + food + ' (saturation: ' + saturation + ')<br />xp level: ' + Math.floor(xp) + '</p>', {offset: [0, -16]});
+	this.marker.bindPopup('<h1>' + this.displayName + '</h1><p>position: ' + Math.floor(pos.x) + ' ' + Math.floor(pos.y) + ' ' + Math.floor(pos.z) + '<br />health: ' + health + ' (' + health / 2 + ' hearts)<br />food: ' + food + ' (saturation: ' + saturation + ')<br />xp level: ' + Math.floor(xp) + '</p>', {offset: [0, -16]});
 
 	if(bed != null) {
 		this.bedMarker.setLatLng(this.ui.mcToLatLng(bed.x, bed.z, bed.y));
-		this.bedMarker.bindPopup('<h1>' + this.username + ' bed spawn</h1><p>position: ' + Math.floor(bed.x) + ' ' + Math.floor(bed.y) + ' ' + Math.floor(bed.z) + '</p>', {offset: [0, -8]});
+		this.bedMarker.bindPopup('<h1>' + this.displayName + ' bed spawn</h1><p>position: ' + Math.floor(bed.x) + ' ' + Math.floor(bed.y) + ' ' + Math.floor(bed.z) + '</p>', {offset: [0, -8]});
 	}
 }
 
@@ -210,9 +210,13 @@ MapPlayerMarkerHandler.prototype.updatePlayers = function(data) {
 		if(wmbID in players) {
 			player = players[wmbID];
 		} else {
-			var displayName = wmbID;
-			//TODO get display name from API
-			player = new PlayerMarker(ui, wmbID, displayName, world, pos, playerData.Health, playerData.foodLevel, playerData.foodSaturationLevel, playerData.XpLevel, bed);
+			// get display name from API
+			$.getJSON(API_PATH + 'v2/player/' + wmbID + '/info.json', function(playerInfo) {
+				if ('name' in playerInfo) {
+					self.updateName(wmbID, playerInfo.name);
+				}
+			});
+			player = new PlayerMarker(ui, wmbID, world, pos, playerData.Health, playerData.foodLevel, playerData.foodSaturationLevel, playerData.XpLevel, bed);
 			players[wmbID] = player;
 		}
 
@@ -235,6 +239,10 @@ MapPlayerMarkerHandler.prototype.updatePlayers = function(data) {
 
 	document.title = "(" + worldPlayersOnline + "/" + globalPlayersOnline.length + ") " + this.documentTitle;
 };
+
+MapPlayerMarkerHandler.prototype.updateName = function(wmbID, displayName) {
+	this.players[wmbID].displayName = displayName;
+}
 
 $(window).ready(function() {
 	Mapcrafter.addHandler(new MapPlayerMarkerHandler());
