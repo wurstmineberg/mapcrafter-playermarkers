@@ -25,8 +25,8 @@ var ANIMATED = true;
 // The Wurstmineberg API to pull player positions from. By default, this uses
 // data from the Wurstmineberg server. Don't forget the trailing slash.
 var API_PATH = 'https://api.' + host + '/';
-var IMG_PATH = API_PATH + 'v2/player/{wmbID}/skin/render/front/16.png';
 var IMG_SIZE_FACTOR = 1.0;
+var IMG_PATH = API_PATH + 'v2/player/{wmbID}/skin/render/front/' + 16 * IMG_SIZE_FACTOR + '.png';
 var WORLD = 'wurstmineberg';
 var BED_IMG = 'https://assets.' + host + '/img/grid/bed.png';
 
