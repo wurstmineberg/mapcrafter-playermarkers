@@ -10,10 +10,7 @@ https://github.com/mapcrafter/mapcrafter-playermarkers has you covered.
 This is a script to show markers of players from a Minecraft server on maps
 rendered with Mapcrafter.
 
-The script is free software and available under the GPL license. The PHP-Script
-to generate the player images is a modified version of the script TJ09 wrote
-([forum
-link](http://forums.bukkit.org/threads/info-mapmarkers-v0-3-4-1-1r6.843/)).
+The script is free software and available under the GPL license.
 
 ## Requirements ##
 
@@ -23,23 +20,20 @@ You need some things to use this script:
 * A working [Wurstmineberg Minecraft
   API](https://github.com/wurstmineberg/api.wurstmineberg.de) to provide the
   player data
-* PHP for your webserver to generate the player images (alternatively, you
-  could also use the default player skin or create the player images manually)
-* PHP write access to a directory to cache the player images
-* PHP-GD library
 
 ## Installation ##
 
-* Make sure your API's `/server/playerdata.json` endpoint is working.
+* Make sure the following endpoints of your API are working:
+    * `/v2/player/<player>/info.json`
+    * `/v2/player/<player>/skin/render/front/16.png`
+    * `/v2/world/<world>/playerdata.json`
 * Copy the files from the `playermarkers` directory to an accessible web
   directory.
-* Make sure that PHP has write access to a directory called `cache`.
 * Now configure the `playermarkers.js` script. You need to specify the URL of
-  the API with the player data and the path to the PHP-Script to generate the
-  player images. You can also turn the player movement animation off if you
-  don't want it.
+  your API. You can also turn the player movement animation off if you don't
+  want it.
 * The last point is that you have to include the script into your rendered map.
-  Open your Mapcrafter template `index.html` file and add the following lines 
+  Open your Mapcrafter template `index.html` file and add the following lines
   after the `<script>` section where the Mapcrafter UI is initialized:
 
 ```
