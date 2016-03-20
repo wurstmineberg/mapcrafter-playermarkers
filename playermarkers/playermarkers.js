@@ -24,11 +24,11 @@ var ANIMATED = true;
 
 // The Wurstmineberg API to pull player positions from. By default, this uses
 // data from the Wurstmineberg server. Don't forget the trailing slash.
-var API_PATH = 'https://api.' + host + '/';
+var API_PATH = '//api.' + host + '/';
 var IMG_SIZE_FACTOR = 1.0;
 var IMG_PATH = API_PATH + 'v2/player/{wmbID}/skin/render/front/' + 16 * IMG_SIZE_FACTOR + '.png';
 var WORLD = 'wurstmineberg';
-var BED_IMG = 'https://assets.' + host + '/img/grid/bed.png';
+var BED_IMG = '//assets.' + host + '/img/grid/bed.png';
 
 function PlayerMarker(ui, wmbID, world, pos, health, food, saturation, xp, bed) {
 	this.ui = ui;
@@ -126,11 +126,11 @@ PlayerMarker.prototype.move = function(destination) {
 };
 
 PlayerMarker.prototype.updateData = function(pos, health, food, saturation, xp, bed) {
-	this.marker.bindPopup('<h1><a href="https://' + host + '/people/' + this.username + '">' + this.displayName + '</a></h1><p>position: ' + Math.floor(pos.x) + ' ' + Math.floor(pos.y) + ' ' + Math.floor(pos.z) + '<br />health: ' + health + ' (' + health / 2 + ' hearts)<br />food: ' + food + ' (saturation: ' + saturation + ')<br />xp level: ' + Math.floor(xp) + '</p>', {offset: [0, -16]});
+	this.marker.bindPopup('<h1><a href="//' + host + '/people/' + this.username + '">' + this.displayName + '</a></h1><p>position: ' + Math.floor(pos.x) + ' ' + Math.floor(pos.y) + ' ' + Math.floor(pos.z) + '<br />health: ' + health + ' (' + health / 2 + ' hearts)<br />food: ' + food + ' (saturation: ' + saturation + ')<br />xp level: ' + Math.floor(xp) + '</p>', {offset: [0, -16]});
 
 	if(bed != null) {
 		this.bedMarker.setLatLng(this.ui.mcToLatLng(bed.x, bed.z, bed.y));
-		this.bedMarker.bindPopup('<h1><a href="https://' + host + '/people/' + this.username + '">' + this.displayName + '</a> bed spawn</h1><p>position: ' + Math.floor(bed.x) + ' ' + Math.floor(bed.y) + ' ' + Math.floor(bed.z) + '</p>', {offset: [0, -8]});
+		this.bedMarker.bindPopup('<h1><a href="//' + host + '/people/' + this.username + '">' + this.displayName + '</a> bed spawn</h1><p>position: ' + Math.floor(bed.x) + ' ' + Math.floor(bed.y) + ' ' + Math.floor(bed.z) + '</p>', {offset: [0, -8]});
 	}
 }
 
