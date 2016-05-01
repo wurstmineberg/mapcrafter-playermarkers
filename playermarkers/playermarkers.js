@@ -37,6 +37,7 @@ function PlayerMarker(ui, wmbID, world, pos, health, food, saturation, xp, bed) 
 	this.displayName = wmbID;
 	this.world = world;
 	this.active = true;
+	this.bedActive = true;
 
 	this.marker = L.marker(this.ui.mcToLatLng(pos.x, pos.z, pos.y), {
 		title: this.username,
@@ -73,6 +74,16 @@ PlayerMarker.prototype.setActive = function(active) {
 		this.marker.addTo(this.ui.lmap);
 	else
 		this.ui.lmap.removeLayer(this.marker);
+};
+
+PlayerMarker.prototype.setBedActive = function(active) {
+	if(active == this.bedActive)
+		return;
+	this.bedActive = active;
+	if(active)
+		this.bedMarker.addTo(this.ui.lmap);
+	else
+		this.ui.lmap.removeLayer(this.bedMarker);
 };
 
 PlayerMarker.prototype.move = function(destination) {
@@ -222,6 +233,7 @@ MapPlayerMarkerHandler.prototype.updatePlayers = function(data) {
 		}
 
 		player.setActive(world == currentWorld);
+		player.setBedActive(WORLD == currentWorld);
 
 		if(player.active) {
 			worldPlayersOnline++;
