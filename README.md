@@ -26,7 +26,7 @@ You need some things to use this script:
 * Make sure the following endpoints of your API are working:
     * `/v2/player/<player>/info.json`
     * `/v2/player/<player>/skin/render/front/16.png`
-    * `/v2/world/<world>/playerdata.json`
+    * `/v2/world/<world>/playerdata/all.json`
 * Copy the files from the `playermarkers` directory to an accessible web
   directory.
 * Now configure the `playermarkers.js` script. You need to specify the URL of
