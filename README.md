@@ -37,7 +37,7 @@ You need some things to use this script:
   after the `<script>` section where the Mapcrafter UI is initialized:
 
 ```
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 <script type="text/javascript" src="/path/to/playermarkers.js"></script>
 ```
 
